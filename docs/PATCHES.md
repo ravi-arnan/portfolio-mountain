@@ -34,8 +34,10 @@ hijau** pada saat penulisannya. Untuk instruksi melanjutkan ke session baru, lih
 - `lib/shaders/` — `mountain.ts` (terrain/sky), `clouds.ts` (instanced puff),
   `weather.ts` (snow/aurora/fog-layer/glow), `stars.ts`, `noise.ts`
 - `components/experience/` — `Scene` (urutan render), `Sky`, `Starfield`, `Aurora`,
-  `Clouds` (near+far instanced), `Terrain`, `ValleyFog`, `Birds`, `CabinLight`, `Snow`,
-  `ShootingStars`, `CameraRig`, `SceneController`, `Overlays`, `CanvasBoundary`, `FallbackPoster`
+  `Clouds` (near+far instanced), `Terrain`, `ValleyFog`, `Birds`, `CabinLight`,
+  `Forest` (pohon pinus instanced), `Village` (rumah + glow), `Path` (setapak),
+  `TerrainLight`, `Snow`, `ShootingStars`, `CameraRig`, `SceneController`, `Overlays`,
+  `CanvasBoundary`, `FallbackPoster`
 - `components/providers/` — `Preloader`, `PageTransition`, `SmoothScroll`
 - `components/home/` — `HomeChoreography`, `Hero`, `Flyover` (pinned 3-beat),
   `SelectedWork`, `Capabilities`, `ContactCTA`; `Manifesto.tsx` ada tapi tidak dipakai
@@ -48,7 +50,8 @@ hijau** pada saat penulisannya. Untuk instruksi melanjutkan ke session baru, lih
 
 ### Urutan render Scene
 `SceneController → CameraRig → Sky → Starfield → Aurora → Clouds(far) → Terrain →
-ValleyFog → Clouds(near) → Birds → CabinLight → Snow → ShootingStars → Effects`
+ValleyFog → Clouds(near) → Birds → Forest → Village → Path → TerrainLight →
+CabinLight → Snow → ShootingStars → Effects`
 
 ### Kualitas & fallback
 - Tier `high/medium/low/fallback` dari `lib/device-capabilities.ts` (WebGL check, CPU/memori/UA)
@@ -135,6 +138,13 @@ ValleyFog → Clouds(near) → Birds → CabinLight → Snow → ShootingStars �
   (puff tengah lebih besar/tinggi), dua draw call: `near` (22 awan × 9 puff, r 55–230)
   dan `far` (14 × 5, r 260–520, hampir menyatu horizon). Urutan render: far sebelum
   Terrain, near setelah ValleyFog. Cloud shader lama dihapus dari `mountain.ts`.
+
+### 2.11 SETTLE — daratan lembah dihuni
+- **Tambahan**: `Forest.tsx` (pohon pinus instanced, `TerrainLight` tunggal),
+  `Village.tsx` (rumah kecil + glow jendela hangat di lembah), `Path.tsx` (ribbon
+  setapak berkelok dari lembah naik lereng). Semua placement deterministik + tier kualitas.
+- **Fix**: `Scene.tsx` memasang `TerrainLight` (ambient + directional tersinkron `atmo`)
+  agar material standar (pohon/rumah) kena cahaya konsisten dengan terrain shader.
 
 ---
 

@@ -11,9 +11,13 @@ import { ValleyFog } from "./ValleyFog";
 import { Clouds } from "./Clouds";
 import { Birds } from "./Birds";
 import { CabinLight } from "./CabinLight";
+import { Forest } from "./Forest";
+import { Village } from "./Village";
+import { Path } from "./Path";
 import { Snow } from "./Snow";
 import { ShootingStars } from "./ShootingStars";
 import { Effects } from "./Effects";
+import { TerrainLight } from "./TerrainLight";
 
 export default function Scene() {
   const quality = useExperienceStore((s) => s.quality);
@@ -35,12 +39,16 @@ export default function Scene() {
       <Sky />
       <Starfield />
       <Aurora />
-      <Clouds variant="far" />
-      <Terrain />
-      <ValleyFog />
-      <Clouds variant="near" />
-      <Birds />
-      <CabinLight />
+    <Clouds variant="far" />
+    <Terrain />
+    <ValleyFog />
+    <Clouds variant="near" />
+    <Birds />
+    <Forest />
+    <Village />
+    <Path />
+    <TerrainLight />
+    <CabinLight />
       <Snow />
       <ShootingStars />
       <Effects />
