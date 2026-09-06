@@ -1,0 +1,24 @@
+---
+title: "Asahlagi"
+slug: "asahlagi"
+year: 2026
+category: "AI Learning Platform"
+services: ["React", "TypeScript", "FastAPI", "Python"]
+summary: "A learning platform that turns study material into quizzes with daily challenges, XP, and streaks. Backend infers student comprehension from assessment results."
+featured: true
+order: 3
+accent: "#A58BFF"
+heroImage: "/projects/asahlagi.png"
+---
+
+## Challenge
+
+Study material is passive. Asahlagi exists to make it active: turn any notes into spaced daily quizzes, then keep momentum with XP and streaks. The part that matters is the inference behind it, understanding what a student actually gets wrong so the next set is aimed at the gap.
+
+## Approach
+
+A React and TypeScript frontend feeds a FastAPI backend, with a 52-test suite guarding the logic. The scoring path turns assessment results into a comprehension signal per topic, which drives which questions surface next. The question generation itself sits on the IndoT5 model layer, fine-tuned for Indonesian and served through a Hugging Face Space.
+
+## Outcome
+
+Winner of Best Capstone Project on the Dicoding AI learning path. The full path is mine end to end: the model on the Hub, the inference Space, the FastAPI backend, and the React interface on top.

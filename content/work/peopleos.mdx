@@ -1,0 +1,25 @@
+---
+title: "PeopleOS"
+slug: "peopleos"
+year: 2026
+category: "Internal Platform"
+services: ["TypeScript", "React", "React Native", "Node.js", "PostgreSQL", "Docker"]
+summary: "People and culture platform for a multi-outlet F&B group: geofenced clock in/out, automated shift scheduling, RBAC, and notifications with WhatsApp fallback."
+featured: true
+order: 1
+accent: "#6572FF"
+---
+
+## Challenge
+
+An F&B group running multiple outlets had grown past spreadsheets. Staff needed to clock in, swap shifts, and stay reachable, across a retail team that is mostly on phones. The requirement was a single platform spanning web for managers and mobile for staff, with permission boundaries that actually held.
+
+## Approach
+
+I built across a multi-repo TypeScript product: a React web app and PWA for managers, a React Native Android app for staff, a Node.js API, and PostgreSQL with Redis on top. Geofenced clock in/out validates location before a punch is trusted, shift scheduling is automated, and role-based access control gates every route and endpoint. Notifications go out through push with a WhatsApp fallback so nothing is missed behind a locked kiosk.
+
+I owned staging and production end to end: Docker Compose for services and PM2 for the API. 78 merged pull requests shipped across the product.
+
+## Outcome
+
+A working internal system the operation actually runs on, with deployments I ran through staging and into production. Cutting the manual scheduling and trust-on-honor attendance workflow was the point, and permissions were designed as a first-class concern rather than an afterthought.

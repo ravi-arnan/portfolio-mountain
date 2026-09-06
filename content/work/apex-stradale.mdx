@@ -1,0 +1,28 @@
+---
+title: "Apex Stradale"
+slug: "apex-stradale"
+year: 2025
+category: "3D Showcase"
+services: ["React Three Fiber", "WebGL", "TypeScript"]
+summary: "A real-time 3D car showcase built to hold a fixed frame budget on mid-range phones rather than to look good on a flagship."
+featured: true
+order: 2
+accent: "#E7A66A"
+heroImage: "/projects/apex-stradale.png"
+---
+
+## Challenge
+
+Most WebGL car showcases are demo-grade: they look great on a developer machine and fall over on the device most visitors actually use. I set the constraint up front to be a fixed frame budget on mid-range phones, because that is the bar that forces real decisions.
+
+## Approach
+
+Geometry stays simplified and the materials do the work the mesh used to. Instancing and a capped DPR keep draw calls predictable, and effects are tiered so the scene degrades gracefully before it ever drops frames. The camera choreography is authored as a set of named shots.
+
+## Outcome
+
+A showcase that holds its budget where it matters. The discipline of the frame budget shaped every material and effect decision, and taught me to profile for the target device, not the build machine.
+
+## Live
+
+View it live at [apex-stradale.vercel.app](https://apex-stradale.vercel.app).
