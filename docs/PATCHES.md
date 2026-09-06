@@ -146,13 +146,52 @@ CabinLight → Snow → ShootingStars → Effects`
 - **Fix**: `Scene.tsx` memasang `TerrainLight` (ambient + directional tersinkron `atmo`)
   agar material standar (pohon/rumah) kena cahaya konsisten dengan terrain shader.
 
+### 2.12 CONTENT. Konten work asli + screenshot proyek
+- Placeholder `content/work/project-one|two|three.mdx` dihapus, diganti 3 proyek asli:
+  `peopleos` (confidential, tanpa hero), `apex-stradale`, `asahlagi`.
+- 11 screenshot proyek disalin dari cosmic-portfolio
+  (`~/Projects/portfolio-cosmic/src/assets`) ke `public/images/projects/`.
+- Frontmatter menambah `heroImage` untuk `apex-stradale` dan `asahlagi`
+  (dipakai `ProjectImage` di kartu dan halaman detail). PeopleOS sengaja tanpa
+  gambar, fallback panel gradient (konsisten dengan cosmic yang menandainya confidential).
+- Screenshot lain (pact, stki-rag, indot5-quizgen, agentic-os, soar, wastra, myheic,
+  mykalender, telkom-dashboard) ikut tersalin, siap dipakai saat mdx-nya dibuat.
+
+### 2.13 DEPLOY. Vercel + portfolio-mountain.raviarnan.dev
+- `next-mdx-remote` 5.0.0 → 6.0.0. Build Vercel sempat diblokir oleh security check
+  ("Vulnerable version ... update to 6.0.0"). API sama (`next-mdx-remote/rsc` +
+  `<MDXRemote>`), peer React `>=16`.
+- Project Vercel `portfolio-mountain` (team ravinissa-gmailcoms-projects). Env
+  production: `RESEND_API_KEY`, `CONTACT_EMAIL`,
+  `NEXT_PUBLIC_SITE_URL=https://portfolio-mountain.raviarnan.dev`.
+- **Gotcha framework preset**: project dibuat lewat `vercel project add` default
+  preset "Other" → semua halaman HTML 404 (hanya aset statis yang jalan). Fix:
+  `PATCH /v9/projects/{id}` dengan `{"framework":"nextjs"}`, lalu redeploy.
+- **Gotcha redirect**: redirect `next.config.js` `/projects/:slug` → `/work/:slug`
+  ikut memotong aset `/projects/*.png`. Screenshot dipindah ke `/images/projects/`
+  dan `heroImage` di-update (commit `34b536b`).
+- DNS: zone `raviarnan.dev` di name.com, bukan Netlify DNS. Tambah CNAME manual di
+  panel name.com: `portfolio-mountain → 6472051effca87d7.vercel-dns-017.com`.
+  Nama server TIDAK diganti, apex `raviarnan.dev` tetap Netlify.
+- SSO deployment protection proyek ini `all_except_custom_domains`, jadi
+  `portfolio-mountain.vercel.app` 404/redirect SSO itu normal; domain custom publik.
+- Alias custom domain di-bind manual per deployment (`vercel alias set`), karena
+  auto-alias project belum menempel ke deploy CLI.
+- Live: https://portfolio-mountain.raviarnan.dev (semua route + gambar 200).
+  Repo GitHub `ravi-arnan/portfolio-mountain`. Auto-deploy dari Git BELUM
+  dihubungkan (`vercel git connect` belum dijalankan).
+
 ---
 
 ## 3. Status & verifikasi terakhir
 
-- `npm run build` **hijau** (0 type error, 0 lint error). 14 route/asset; halaman statis
-  kecuali `/api/contact` (ƒ) dan `/opengraph-image` (edge).
+- `npm run build` **hijau** (0 type error, 0 lint error) setelah upgrade
+  `next-mdx-remote@6`. 14 route/asset; halaman statis kecuali `/api/contact` (ƒ)
+  dan `/opengraph-image` (edge).
 - Verifikasi browser (headless Chrome + CDP): 0 console error, 0 page error.
+- Live production (6 Sep): `https://portfolio-mountain.raviarnan.dev` semua route
+  200 (`/`, `/work`, `/work/{apex-stradale,asahlagi,peopleos}`) dan screenshot
+  `/images/projects/*.png` termuat (heroImage ter-render di kartu + halaman detail).
 - Terverifikasi visual: hero fajar (puncak + kabut + awan puff soft + teks terbaca),
   flyover (kamera skim→behind→rise, caption sticky), rise (awan gumpal dari atas),
   night (langit biru-hitam, bintang, aurora samar, salju, `--accent` ice-blue
@@ -171,22 +210,23 @@ CabinLight → Snow → ShootingStars → Effects`
 
 ## 4. Open loop / pekerjaan yang tersisa
 
-### Konten (prioritas tertinggi — tanpa ini site tidak launchable)
-- `content/work/project-one|two|three.mdx` — masih placeholder ("Placeholder — …")
-- `components/home/Hero.tsx` — copy generic
-- `app/about/page.tsx` — paragraf placeholder ("This section is a placeholder")
-- `components/home/Capabilities.tsx` — item generik
+### Konten (sisa)
+- Selesai 6 Sep: `content/work/project-one|two|three.mdx` diganti 3 proyek asli
+  (`peopleos`, `apex-stradale`, `asahlagi`) + `heroImage` (lihat §2.12).
+- `Hero.tsx` + metadata description sudah terisi, tinggal `app/about/page.tsx` yang
+  masih placeholder ("This section is a placeholder")
+- `components/home/Flyover.tsx` (3 baris beat masih placeholder, "Perspective, first. / …")
 - `components/layout/Footer.tsx` + `app/layout.tsx` `jsonLd.sameAs` —
   `github.com/CHANGE_ME`, `linkedin.com/in/CHANGE_ME`
-- `components/home/Flyover.tsx` — 3 baris beat placeholder ("Perspective, first. / …")
-- Metadata description masih generic
+- Screenshot cadangan untuk proyek cosmic lain sudah siap di `public/images/projects/`
+  kalau mau diperluas katalog work-nya (Pact, STKI-RAG, IndoT5, Agentic OS, SOAR, Wastra)
 
-### Launch
-- Vercel: import repo, env `NEXT_PUBLIC_SITE_URL=https://raviarnan.dev`,
-  `CONTACT_EMAIL`, `RESEND_API_KEY`
-- Resend: verifikasi domain, ganti `from:` di `app/api/contact/route.ts`
-  (`onboarding@resend.dev` → `hello@raviarnan.dev`)
-- Tes form live, tes OG di Slack/X, Lighthouse mobile (LCP < 2.5s, CLS < 0.1)
+### Launch (sebagian selesai, lihat §2.13)
+- Sudah: repo GitHub + deploy Vercel + domain `portfolio-mountain.raviarnan.dev`
+  + env production + framework preset nextjs.
+- Sisa: verifikasi domain Resend + ganti `from:` di `app/api/contact/route.ts`
+  (`onboarding@resend.dev` → `hello@raviarnan.dev`), tes form live.
+- Opsional: `vercel git connect` biar push ke `main` auto-deploy.
 
 ### Ide v2 (setelah konten)
 - Image-sequence Blender (upgrade painterly; `SHOTS` siap jadi kamera Blender)
@@ -235,6 +275,9 @@ rm -rf .next && npm run build          # bersihkan state build yang korup
 > Proyek: portfolio Next.js 15 + Three.js/R3F dengan scene gunung alpine prosedural
 > (terrain heightfield, atmosfer 4 fase waktu = scroll, awan instanced near/far, salju,
 > aurora, bintang, burung, lampu pondok), kamera scroll-scrubbed lewat `SHOTS` +
-> marker `[data-shot]`, preloader "pendakian" 2,8s. Konten masih placeholder dan link
-> sosial masih `CHANGE_ME`. Lihat `docs/PATCHES.md` untuk arsitektur, riwayat patch,
-> dan open loop. Bangun dengan `NODE_ENV=development npm run dev` / `npm run build`.
+> marker `[data-shot]`, preloader "pendakian" 2,8s. LIVE di
+> portfolio-mountain.raviarnan.dev (Vercel, repo ravi-arnan/portfolio-mountain);
+> link sosial masih `CHANGE_ME` dan `/about` masih placeholder. Lihat
+> `docs/PATCHES.md` untuk arsitektur, riwayat patch, dan open loop. Bangun dengan
+> `NODE_ENV=development npm run dev` / `npm run build`. Deploy ulang lewat
+> `npx vercel deploy --prod` (perlu `vercel alias set` ulang bila custom domain tidak ikut).
